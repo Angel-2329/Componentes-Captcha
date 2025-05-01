@@ -109,3 +109,36 @@ panel.add(textField);
 - **Listener:** implementa `ActionListener` para detectar eventos de texto.
 - **Comparación:** insensible a mayúsculas/minúsculas (`equalsIgnoreCase`).
 - **Integración:** usa el método `setCaptchaLabel(CaptchaLabel label)` para vincular CAPTCHA.
+
+## 🧩 Métodos y Constructor de `CaptchaTextField`
+
+### 🛠️ Constructor
+
+#### `public CaptchaTextField()`
+Inicializa un campo de texto (`JTextField`) con un ancho de 10 columnas. Registra el componente como su propio `ActionListener` para detectar cuando el usuario presiona `Enter`. Limpia el texto inicial del campo.
+
+---
+
+### 🔗 Método de vinculación
+
+#### `public void setCaptchaLabel(CaptchaLabel captchaLabel)`
+Asigna una instancia de `CaptchaLabel` al campo de texto. Es esencial para que la verificación del CAPTCHA funcione correctamente, ya que este método enlaza el campo con la fuente de datos a verificar.
+
+---
+
+### 🔁 Método sobrescrito
+
+#### `@Override public void actionPerformed(ActionEvent e)`
+Este método se ejecuta cuando el usuario presiona `Enter` en el campo. Si el `CaptchaLabel` fue previamente asignado, llama a `verificarCaptcha()`. Si no, muestra un mensaje de error con `JOptionPane`.
+
+---
+
+### 🧪 Método de verificación
+
+#### `private void verificarCaptcha()`
+Compara el texto ingresado por el usuario con el CAPTCHA generado:
+- Si el texto es **correcto**, se muestra un mensaje de éxito.
+- Si es **incorrecto**, se notifica al usuario, se genera un nuevo CAPTCHA desde `CaptchaLabel`, y el campo de texto se reinicia.
+
+La comparación es insensible a mayúsculas/minúsculas (`equalsIgnoreCase`) para facilitar la experiencia del usuario.
+
