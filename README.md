@@ -46,3 +46,23 @@ textField.setCaptchaLabel(captcha);
 JPanel panel = new JPanel();
 panel.add(captcha);
 panel.add(textField);
+
+## 🧾 Comportamiento
+
+- El usuario escribe el texto del CAPTCHA.
+- Al presionar `Enter`, se compara el texto ingresado con el generado.
+- Se muestra un `JOptionPane` con el resultado:
+
+  - ✅ **Correcto:** se notifica al usuario.
+  - ❌ **Incorrecto:** se genera uno nuevo y se reinicia el campo.
+
+---
+
+## ⚙️ Detalles técnicos
+
+- **Herencia:** extiende `JTextField`.
+- **Listener:** implementa `ActionListener` para detectar eventos de texto.
+- **Comparación:** insensible a mayúsculas/minúsculas (`equalsIgnoreCase`).
+- **Integración:** usa el método `setCaptchaLabel(CaptchaLabel label)` para vincular CAPTCHA.
+
+---
