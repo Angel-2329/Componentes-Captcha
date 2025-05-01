@@ -1,5 +1,47 @@
 # Componentes-Captcha
 
+# 🛡️ Captcha Java - Generador y Verificador de CAPTCHA con Swing
+
+Este proyecto proporciona dos componentes personalizados en Java Swing para la generación y verificación de CAPTCHA. Está diseñado para integrarse fácilmente en interfaces gráficas (GUI) que requieran una verificación básica anti-bot.
+
+---
+
+## 🧩 Componentes principales
+
+### 🔠 `CaptchaLabel` - Generador de CAPTCHA
+
+Este componente extiende `JLabel` y genera una imagen CAPTCHA visualmente distorsionada con texto aleatorio, líneas de ruido y desenfoque, dificultando así su lectura automatizada.
+
+#### Funcionalidades:
+- Texto aleatorio de 8 caracteres (sin letras ni números ambiguos).
+- Renderizado gráfico con:
+  - Fuente Arial, tamaño 40pt, negrita.
+  - Color aleatorio por carácter (tonos oscuros).
+  - Líneas de ruido visual (8 por imagen).
+  - Filtro de desenfoque (`ConvolveOp` con kernel 3x3).
+- Redibujado automático con `repaint()`.
+- Tamaño fijo de 200x60 píxeles.
+- Basado completamente en bibliotecas estándar (`AWT`, `Swing`).
+
+---
+
+### ✍️ `CaptchaTextField` - Verificador de CAPTCHA
+
+Este componente extiende `JTextField` e implementa `ActionListener` para detectar la acción de presionar `Enter`. Compara el texto ingresado con el CAPTCHA generado y responde en consecuencia.
+
+#### Comportamiento:
+1. El usuario escribe el texto del CAPTCHA.
+2. Al presionar `Enter`, se verifica la coincidencia:
+   - ✅ Si es **correcto**: muestra un mensaje de éxito.
+   - ❌ Si es **incorrecto**: muestra un error, genera un nuevo CAPTCHA y limpia el campo.
+
+#### Detalles técnicos:
+- Implementa `ActionListener`.
+- Comparación insensible a mayúsculas/minúsculas (`equalsIgnoreCase`).
+- Utiliza el método `setCaptchaLabel(CaptchaLabel)` para integrarse.
+
+---
+
 # CaptchaLabel - Generador de CAPTCHA en Java
 
 Este componente en Java genera una imagen CAPTCHA personalizada, utilizando `JLabel` de Swing, que puede integrarse fácilmente en interfaces gráficas de usuario (GUI). La imagen contiene texto aleatorio con ruido visual y un filtro de desenfoque para aumentar su seguridad.
