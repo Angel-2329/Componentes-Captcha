@@ -25,6 +25,44 @@ Este componente en Java genera una imagen CAPTCHA personalizada, utilizando `JLa
 - **Tamaño del componente:** 200x60 píxeles.
 - **Caracteres válidos:** Letras mayúsculas sin ambigüedad (`A-Z` sin `O`, `I`) y números (`2-9`, sin `0`, `1`).
 
+## 🧩 Métodos y Constructor de `CaptchaLabel`
+
+### 🛠️ Constructor
+
+#### `public CaptchaLabel()`
+Crea una instancia del componente CAPTCHA con tamaño fijo de `200x60` píxeles. Establece un borde negro y genera un CAPTCHA inicial automáticamente al momento de crear el objeto.
+
+---
+
+### 🔄 Métodos públicos
+
+#### `public void generarCaptcha()`
+Genera un nuevo texto aleatorio de CAPTCHA y lo convierte en una imagen con ruido y desenfoque. Llama a `repaint()` para actualizar la visualización del componente.
+
+#### `public String getTexto_Captcha()`
+Devuelve el texto actual generado del CAPTCHA, útil para verificar la entrada del usuario en otro componente.
+
+---
+
+### 🔒 Métodos privados
+
+#### `private String generarTextoCaptcha(int Tamaño)`
+Genera una cadena aleatoria con la longitud indicada. Los caracteres válidos son letras mayúsculas sin ambigüedad (`A-Z` sin `O`, `I`) y números (`2-9`), lo que facilita la legibilidad por humanos.
+
+#### `private BufferedImage generarImagen_delCaptcha(String text)`
+Convierte el texto CAPTCHA en una imagen:
+- Pinta el fondo con gris claro.
+- Dibuja cada carácter con una posición y color aleatorio.
+- Añade 8 líneas de ruido visual con colores aleatorios.
+- Aplica un desenfoque con un `Kernel` de 3x3 para dificultar su lectura por bots.
+
+---
+
+### 🎨 Método sobreescrito
+
+#### `protected void paintComponent(Graphics g)`
+Sobrescribe el método de `JLabel` para dibujar la imagen generada del CAPTCHA sobre el componente. Se asegura de que la imagen se actualice cada vez que se llama a `repaint()`.
+
 ---
 
 # CaptchaTextField - Campo de texto con verificación de CAPTCHA en Java
