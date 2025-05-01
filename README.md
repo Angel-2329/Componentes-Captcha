@@ -28,3 +28,21 @@ Este componente extiende `JTextField` y se conecta a un `CaptchaLabel` para veri
 - 🔍 Verifica automáticamente el texto ingresado con el CAPTCHA.
 - 🔄 Si la verificación falla, genera un nuevo CAPTCHA y limpia el campo.
 - 🖥️ Diseñado para trabajar junto con el componente `CaptchaLabel`.
+
+  
+## 🔗 Dependencia
+
+Este componente **requiere** una instancia de `CaptchaLabel` para funcionar correctamente.
+
+## 🚀 Cómo usar
+
+### 1. Crear e integrar los componentes
+
+```java
+CaptchaLabel captcha = new CaptchaLabel();
+CaptchaTextField textField = new CaptchaTextField();
+textField.setCaptchaLabel(captcha);
+
+JPanel panel = new JPanel();
+panel.add(captcha);
+panel.add(textField);
