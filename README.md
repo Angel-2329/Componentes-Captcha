@@ -36,7 +36,7 @@ Este componente **requiere** una instancia de `CaptchaLabel` para funcionar corr
 
 ## 🚀 Cómo usar
 
-### 1. Crear e integrar los componentes
+### Crear e integrar los componentes
 
 ```java
 CaptchaLabel captcha = new CaptchaLabel();
@@ -46,7 +46,7 @@ textField.setCaptchaLabel(captcha);
 JPanel panel = new JPanel();
 panel.add(captcha);
 panel.add(textField);
-
+```
 ## 🧾 Comportamiento
 
 - El usuario escribe el texto del CAPTCHA.
