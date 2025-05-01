@@ -16,7 +16,16 @@ Este componente en Java genera una imagen CAPTCHA personalizada, utilizando `JLa
 
 > ⚠️ Como este es un componente gráfico, el resultado se visualiza al integrarlo en una aplicación Java Swing.
 
-## 📁 Estructura
+## ⚙️ Detalles técnicos
+
+- **Fuente utilizada:** Arial, 40pt, negrita.
+- **Colores:** Aleatorios por carácter, usando tonos oscuros.
+- **Ruido visual:** 8 líneas dibujadas con colores aleatorios para dificultar la lectura automatizada.
+- **Desenfoque:** Aplicado mediante `ConvolveOp` con un kernel de 3x3 (promedio), para suavizar la imagen.
+- **Tamaño del componente:** 200x60 píxeles.
+- **Caracteres válidos:** Letras mayúsculas sin ambigüedad (`A-Z` sin `O`, `I`) y números (`2-9`, sin `0`, `1`).
+
+---
 
 # CaptchaTextField - Campo de texto con verificación de CAPTCHA en Java
 
@@ -56,13 +65,9 @@ panel.add(textField);
   - ✅ **Correcto:** se notifica al usuario.
   - ❌ **Incorrecto:** se genera uno nuevo y se reinicia el campo.
 
----
-
 ## ⚙️ Detalles técnicos
 
 - **Herencia:** extiende `JTextField`.
 - **Listener:** implementa `ActionListener` para detectar eventos de texto.
 - **Comparación:** insensible a mayúsculas/minúsculas (`equalsIgnoreCase`).
 - **Integración:** usa el método `setCaptchaLabel(CaptchaLabel label)` para vincular CAPTCHA.
-
----
