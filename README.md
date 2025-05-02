@@ -257,3 +257,42 @@ JPanel panel = new JPanel();
 panel.add(captcha);
 panel.add(textField);
 ```
+## 🧩 Agregar Componentes a la Paleta de NetBeans
+
+Esta guía te explica cómo integrar los componentes personalizados `CaptchaLabel` y `CaptchaTextField` en la paleta de NetBeans para que puedas arrastrarlos y usarlos visualmente desde el GUI Builder.
+
+---
+### 1. Compila el proyecto
+
+Asegúrate de que tu proyecto esté compilado correctamente para que NetBeans pueda detectar las clases:
+---
+
+### 2. Abre la paleta de componentes
+
+1. Abre cualquier formulario (`.java`) que use Swing con el diseñador gráfico.
+2. En el borde derecho, ubica la **Paleta** (si no se ve, ve a `Window → Palette`).
+
+---
+
+### 3. Agrega un nuevo componente
+
+1. En la parte superior de la paleta, haz clic en el icono **"Agregar desde archivo JAR o Clase"** (ícono de engranaje o clic derecho sobre la paleta → `Add from JAR...` o `Add from Project Class`).
+2. Selecciona la clase personalizada:
+   - Busca `CaptchaLabel.class` o `CaptchaTextField.class` desde el directorio `build/classes/Captcha_Componentes` o donde esté compilado tu `.class`.
+   - También puedes navegar hasta el archivo `.java` si eliges “Add from Project Class”.
+
+---
+
+### 4. Selecciona la categoría
+
+- NetBeans te preguntará en qué categoría de la paleta agregar los componentes.
+- Puedes crear una nueva, por ejemplo: `Captcha Componentes`.
+
+---
+
+### 5. ¡Listo! Usa tus componentes
+
+- Ahora podrás arrastrar `CaptchaLabel` y `CaptchaTextField` directamente desde la paleta al formulario visual.
+- El código generado automáticamente usará tus clases personalizadas.
+
+---
