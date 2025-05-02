@@ -220,7 +220,7 @@ Inicializa la ventana gráfica, establece los componentes y enlaza el campo de t
 El campo de texto (CaptchaTextField) se conecta al CaptchaLabel para que, al presionar Enter, verifique automáticamente el texto ingresado.
 Si la verificación falla, el propio componente se encarga de mostrar un mensaje y generar un nuevo CAPTCHA.
 
-###🔁 Funcionalidad del botón Refrescar
+### 🔁 Funcionalidad del botón Refrescar
 ```java
 private void RefrescarbtnActionPerformed(ActionEvent evt)
 ```
