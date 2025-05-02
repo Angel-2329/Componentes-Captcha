@@ -262,7 +262,7 @@ panel.add(textField);
 Esta guía te explica cómo integrar los componentes personalizados `CaptchaLabel` y `CaptchaTextField` en la paleta de NetBeans para que puedas arrastrarlos y usarlos visualmente desde el GUI Builder.
 
 ---
-### 1. Compila el proyecto
+### 1. Compila el proyecto ###
 
 Asegúrate de que tu proyecto esté compilado correctamente para que NetBeans pueda detectar las clases:
 ---
