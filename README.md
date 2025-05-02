@@ -311,3 +311,8 @@ Asegúrate de que tu proyecto esté compilado correctamente para que NetBeans pu
 ![Yapuedes ocupar los componentes](Imagenes/Final.png)
 
 ---
+
+# Autores
+
+- Méndez García Ángel de Jesús
+- Pérez Jiménez Santiago Enmanuel 
