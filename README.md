@@ -265,6 +265,7 @@ Esta guía te explica cómo integrar los componentes personalizados `CaptchaLabe
 ### 1. Compila el proyecto ###
 
 Asegúrate de que tu proyecto esté compilado correctamente para que NetBeans pueda detectar las clases:
+
 ---
 
 ### 2. Abre la paleta de componentes
