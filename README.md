@@ -236,3 +236,24 @@ Botón para refrescar el CAPTCHA en la parte inferior.
 ## 📷 Vista previa (simulada)
 
 ![Vista Previa del JLabel para el Captcha](Imagenes/JFrame_Componentes.png)
+---
+# 📦 Instalación de los Componentes CAPTCHA
+1. **Clona o copia los archivos de clase:**
+   - `CaptchaLabel.java`
+   - `CaptchaTextField.java`
+
+2. **Agrega las clases a tu proyecto Java Swing** dentro del paquete `Captcha_Componentes` o el nombre de paquete que prefieras (recuerda modificar las importaciones si cambias el nombre).
+
+3. **Crea una ventana o formulario** (`JFrame`) donde usarás los componentes.
+
+4. **Agrega e inicializa los componentes en tu clase principal:**
+
+```java
+CaptchaLabel captcha = new CaptchaLabel();
+CaptchaTextField textField = new CaptchaTextField();
+textField.setCaptchaLabel(captcha); // Conexión entre el campo y la imagen
+
+JPanel panel = new JPanel();
+panel.add(captcha);
+panel.add(textField);
+```
