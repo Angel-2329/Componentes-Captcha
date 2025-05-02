@@ -226,9 +226,13 @@ private void RefrescarbtnActionPerformed(ActionEvent evt)
 ```
 Este método genera manualmente un nuevo CAPTCHA al presionar el botón y limpia el campo de entrada para permitir un nuevo intento.
 
-###🖼️ Diseño gráfico
+### 🖼️ Diseño gráfico
 La ventana contiene los siguientes elementos organizados con GroupLayout dentro de un JPanel:
 Imagen CAPTCHA al centro.
 Campo de texto justo debajo.
 Botón para refrescar el CAPTCHA en la parte inferior.
 🎨 Fondo rosado claro (RGB: 255, 204, 204) y botón verde claro para mejorar la visibilidad del CAPTCHA.
+
+## 📷 Vista previa (simulada)
+
+![Vista Previa del JLabel para el Captcha](Imagenes/JFrame_Componentes.png)
