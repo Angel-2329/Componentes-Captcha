@@ -1,6 +1,4 @@
-# Componentes-Captcha
-
-# 🛡️ Captcha Java - Generador y Verificador de CAPTCHA con Swing
+# 🛡️ Componentes-Captcha - Generador y Verificador de CAPTCHA con Swing
 
 Este proyecto proporciona dos componentes personalizados en Java Swing para la generación y verificación de CAPTCHA. Está diseñado para integrarse fácilmente en interfaces gráficas (GUI) que requieran una verificación básica anti-bot.
 
@@ -184,3 +182,53 @@ Compara el texto ingresado por el usuario con el CAPTCHA generado:
 
 La comparación es insensible a mayúsculas/minúsculas (`equalsIgnoreCase`) para facilitar la experiencia del usuario.
 
+# 🖥️ Aplicacion_Componentes - Interfaz Gráfica de Prueba para CAPTCHA
+
+`Aplicacion_Componentes` es una clase que extiende `JFrame` y actúa como una interfaz de prueba para los componentes personalizados `CaptchaLabel` y `CaptchaTextField`. Esta aplicación proporciona una ventana gráfica funcional que simula un escenario real de verificación de CAPTCHA usando Java Swing.
+
+---
+
+## 🎯 Funcionalidad principal
+
+- Muestra un CAPTCHA generado aleatoriamente (`CaptchaLabel`).
+- Permite al usuario ingresar el texto del CAPTCHA en un campo de texto (`CaptchaTextField`).
+- Verifica automáticamente la entrada al presionar `Enter`.
+- Ofrece un botón para **refrescar el CAPTCHA manualmente**.
+
+---
+
+## 🧩 Componentes usados
+
+| Componente           | Descripción                                                                 |
+|----------------------|-----------------------------------------------------------------------------|
+| `CaptchaLabel`       | Componente gráfico que muestra el CAPTCHA generado.                        |
+| `CaptchaTextField`   | Campo de texto personalizado que verifica automáticamente la entrada del usuario. |
+| `JButton - Refrescar`| Botón que permite generar un nuevo CAPTCHA manualmente.                    |
+
+---
+
+## ⚙️ Detalles de implementación
+
+### 🏗️ Constructor
+
+```java
+public Aplicacion_Componentes()
+Inicializa la ventana gráfica, establece los componentes y enlaza el campo de texto con el CAPTCHA mediante setCaptchaLabel(captchaLabel1). Además, limpia el campo de texto al inicio.
+```
+
+### 🧪 Logica de verificación
+El campo de texto (CaptchaTextField) se conecta al CaptchaLabel para que, al presionar Enter, verifique automáticamente el texto ingresado.
+Si la verificación falla, el propio componente se encarga de mostrar un mensaje y generar un nuevo CAPTCHA.
+
+###🔁 Funcionalidad del botón Refrescar
+```java
+private void RefrescarbtnActionPerformed(ActionEvent evt)
+```
+Este método genera manualmente un nuevo CAPTCHA al presionar el botón y limpia el campo de entrada para permitir un nuevo intento.
+
+###🖼️ Diseño gráfico
+La ventana contiene los siguientes elementos organizados con GroupLayout dentro de un JPanel:
+Imagen CAPTCHA al centro.
+Campo de texto justo debajo.
+Botón para refrescar el CAPTCHA en la parte inferior.
+🎨 Fondo rosado claro (RGB: 255, 204, 204) y botón verde claro para mejorar la visibilidad del CAPTCHA.
