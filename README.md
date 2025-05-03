@@ -11,14 +11,14 @@ Este proyecto proporciona dos componentes personalizados en Java Swing para la g
 Este componente extiende `JLabel` y genera una imagen CAPTCHA visualmente distorsionada con texto aleatorio, líneas de ruido y desenfoque, dificultando así su lectura automatizada.
 
 #### Funcionalidades:
-- Texto aleatorio de 8 caracteres (sin letras ni números ambiguos).
+- Texto aleatorio de 6 caracteres (sin letras ni números ambiguos).
 - Renderizado gráfico con:
   - Fuente Arial, tamaño 40pt, negrita.
   - Color aleatorio por carácter (tonos oscuros).
   - Líneas de ruido visual (8 por imagen).
   - Filtro de desenfoque (`ConvolveOp` con kernel 3x3).
 - Redibujado automático con `repaint()`.
-- Tamaño fijo de 200x60 píxeles.
+- Tamaño fijo de 250x60 píxeles.
 - Basado completamente en bibliotecas estándar (`AWT`, `Swing`).
 
 ---
@@ -40,47 +40,213 @@ Este componente extiende `JTextField` e implementa `ActionListener` para detecta
 
 ---
 
-# CaptchaLabel - Generador de CAPTCHA en Java
+# CaptchaPanel  - Generador de CAPTCHA en Java
 
 Este componente en Java genera una imagen CAPTCHA personalizada, utilizando `JLabel` de Swing, que puede integrarse fácilmente en interfaces gráficas de usuario (GUI). La imagen contiene texto aleatorio con ruido visual y un filtro de desenfoque para aumentar su seguridad.
 
 ## 🧩 Características
 
-- ✅ Generación aleatoria de texto CAPTCHA (8 caracteres).
-- 🎨 Renderizado gráfico con distorsión, ruido visual y color aleatorio por carácter.
-- 🌫️ Aplicación de un filtro de desenfoque (blur) sobre la imagen.
-- 🔁 Componente reutilizable con capacidad de regenerar CAPTCHA dinámicamente.
-- 🧱 Basado en la biblioteca estándar de Java (AWT y Swing).
+- ✅ Texto CAPTCHA configurable (letras, números o combinados).
+- 🎨 Personalización de fuente, tamaño, estilo, colores y fondo.
+- 🔁 Botón opcional para regenerar el CAPTCHA.
+- 🌫️ Opción de desenfoque con diferentes niveles.
+- 🖍️ Líneas decorativas para dificultar lectura automática.
+- 📐 Ajuste dinámico de tamaño del panel y del CAPTCHA.
 
 ## 📷 Vista previa (simulada)
 
 ![Vista Previa del JLabel para el Captcha](Imagenes/Captcha_Label.png)
 
-## ⚙️ Detalles técnicos
+## ⚙️ Propiedades Configurables
 
-- **Fuente utilizada:** Arial, 40pt, negrita.
-- **Colores:** Aleatorios por carácter, usando tonos oscuros.
-- **Ruido visual:** 8 líneas dibujadas con colores aleatorios para dificultar la lectura automatizada.
-- **Desenfoque:** Aplicado mediante `ConvolveOp` con un kernel de 3x3 (promedio), para suavizar la imagen.
-- **Tamaño del componente:** 200x60 píxeles.
-- **Caracteres válidos:** Letras mayúsculas sin ambigüedad (`A-Z` sin `O`, `I`) y números (`2-9`, sin `0`, `1`).
+### Apariencia del texto
+
+```java
+captcha.setTipoCaptcha(CaptchaPanel.CaptchaTipo.COMBINADO); // SOLO_LETRAS, SOLO_NUMEROS
+captcha.setCaptchaFontSize(24);
+captcha.setCaptchaColor(Color.BLUE);
+captcha.setTipoLetra("Courier New");
+captcha.setEstilo(CaptchaPanel.EstiloLetra.BOLD_ITALIC);
+```
+
+### Apariencia visual
+
+```java
+captcha.setcaptchaColorFondo(Color.WHITE);
+captcha.setcaptchaAnchoImagen(60);
+captcha.setcaptchaLargoImagen(200);
+```
+
+### Efectos visuales
+
+```java
+captcha.setCaptchaBorroso(true);
+captcha.setNivelBorroso(2); // Rango de 0 a 4
+captcha.setDibujarLineas(true);
+captcha.setCantidadLineas(6);
+```
+
+### Botón regenerador
+
+```java
+captcha.setMostrarBotonRecargarCaptcha(true);
+captcha.setBotonColorFondo(Color.GRAY);
+captcha.setBotonColorTexto(Color.WHITE);
+captcha.setBotonSimbolo("🔄");
+```
+
+## 🛠️ Detalles técnicos
+
+### 🔧 Estructura general
+
+El componente `CaptchaPanel` extiende `JPanel` y está compuesto por:
+
+- Un `JLabel` (`captchaImageLabel`) que contiene la imagen generada del CAPTCHA.
+- Un `JButton` opcional (`captchaBotonRegenerar`) que permite regenerar el CAPTCHA manualmente.
+
+### 🖼️ Generación del CAPTCHA
+
+El texto del CAPTCHA es generado aleatoriamente según el tipo configurado:
+
+- `SOLO_LETRAS`
+- `SOLO_NUMEROS`
+- `COMBINADO`
+
+El método `generarCaptcha()` crea:
+
+- Un nuevo texto aleatorio.
+- Una imagen (`BufferedImage`) que representa gráficamente el texto.
+
+El resultado se dibuja utilizando `Graphics2D`.
+
+### ✍️ Personalización tipográfica
+
+El texto CAPTCHA se dibuja usando la clase `Font`, con opciones de:
+
+- **Familia** (`captchaTipoLetra`)
+- **Tamaño** (`captchaFontSize`)
+- **Estilo** (`PLAIN`, `BOLD`, `ITALIC`, `BOLD_ITALIC`)
+
+Se emplea `FontMetrics` para centrar el texto de forma horizontal y vertical.
+
+### 🌈 Efectos visuales
+
+#### 🎨 Líneas decorativas
+
+Líneas aleatorias generadas con `Graphics2D.drawLine()` en posiciones y colores aleatorios, para dificultar la lectura automática.
+
+Controlado mediante:
+
+- `captchaDibujarLineas`
+- `captchaCantidadLineas`
+
+#### 🌫️ Desenfoque
+
+Se aplica un filtro de convolución (`ConvolveOp`) sobre la imagen CAPTCHA con un **kernel promedio** para generar un efecto de desenfoque (blur).
+
+- Nivel controlado mediante `captchaNivelBorroso` (0 a 4).
+
+### 📏 Redimensionamiento
+
+Las dimensiones del panel y la imagen se sincronizan usando `Dimension`.
+
+El método `actualizarTamaño()` recalcula los límites del panel al modificar:
+
+- `captchaAncho`
+- `captchaLargo`
+
+### 🔄 Botón regenerador
+
+El botón `captchaBotonRegenerar` está oculto por defecto.
+
+Si está habilitado con `setMostrarBotonRecargarCaptcha(true)`, permite regenerar el CAPTCHA manualmente.
+
+Es totalmente personalizable:
+
+- Color de fondo: `setBotonColorFondo`
+- Color del texto: `setBotonColorTexto`
+- Símbolo o texto: `setBotonSimbolo`
+- Estilo visual fijo (borde y espaciado)
+
+### 🎯 Revalidación y repintado
+
+Cada vez que se actualiza una propiedad clave (como el texto, color o tamaño), se ejecutan:
+
+- `generarCaptcha()`
+- `revalidate()`
+- `repaint()`
+
 
 ## 🧩 Métodos y Constructor de `CaptchaLabel`
 
 ### 🛠️ Constructor
 
-#### `public CaptchaLabel()`
-Crea una instancia del componente CAPTCHA con tamaño fijo de `200x60` píxeles. Establece un borde negro y genera un CAPTCHA inicial automáticamente al momento de crear el objeto.
+#### `public CaptchaPanel()`
+Crea una nueva instancia del componente CaptchaPanel, inicializando el layout, generando el primer CAPTCHA y configurando el botón de regeneración (si está habilitado). El JLabel con la imagen se centra automáticamente.
 
 ---
 
-### 🔄 Métodos públicos
+## 🛠️ Métodos Públicos
 
-#### `public void generarCaptcha()`
-Genera un nuevo texto aleatorio de CAPTCHA y lo convierte en una imagen con ruido y desenfoque. Llama a `repaint()` para actualizar la visualización del componente.
+### 🎨 Personalización visual
 
-#### `public String getTexto_Captcha()`
-Devuelve el texto actual generado del CAPTCHA, útil para verificar la entrada del usuario en otro componente.
+| Método                             | Descripción                                     |
+|------------------------------------|-------------------------------------------------|
+| `setcaptchaColor(Color color)`     | Cambia el color del texto del CAPTCHA.        |
+| `setcaptchaColorFondo(Color color)`| Cambia el color de fondo del CAPTCHA.        |
+| `setCaptchaFontSize(int tamaño)`   | Cambia el tamaño de la fuente del CAPTCHA.     |
+| `setTipoLetra(String fuente)`      | Define la fuente (familia tipográfica).       |
+| `setEstilo(EstiloLetra estilo)`   | Cambia el estilo del texto (PLAIN, BOLD, etc.). |
+
+---
+
+### 🖋️ Texto del CAPTCHA
+
+| Método                             | Descripción                                                    |
+|------------------------------------|----------------------------------------------------------------|
+| `setlargoDelCaptcha(int cantidad)` | Define cuántos caracteres tendrá el CAPTCHA.                   |
+| `getTexto_Captcha()`               | Devuelve el texto actual del CAPTCHA generado.                |
+| `setTipoCaptcha(CaptchaTipo tipo)` | Define si el CAPTCHA tendrá letras, números o ambos.          |
+
+---
+
+### 🖼️ Imagen y tamaño
+
+| Método                             | Descripción                                        |
+|------------------------------------|----------------------------------------------------|
+| `setcaptchaAltoImagen(int ancho)`  | Define la altura de la imagen del CAPTCHA.        |
+| `setcaptchaLargoImagen(int largo)` | Define el ancho de la imagen del CAPTCHA.         |
+
+---
+
+### ✨ Efectos visuales
+
+| Método                             | Descripción                                              |
+|------------------------------------|----------------------------------------------------------|
+| `setCaptchaBorroso(boolean activar)` | Habilita o desactiva el desenfoque.                     |
+| `setNivelBorroso(int nivel)`       | Define el nivel de desenfoque (0-4).                      |
+| `setDibujarLineas(boolean activar)` | Activa o desactiva líneas decorativas.                   |
+| `setCantidadLineas(int cantidad)`   | Número de líneas decorativas aleatorias.       
+
+---
+
+### 🔄 Botón de recarga
+
+| Método                                       | Descripción                                                 |
+|----------------------------------------------|-------------------------------------------------------------|
+| `setMostrarBotonRecargarCaptcha(boolean mostrar)` | Muestra u oculta el botón de regenerar CAPTCHA.            |
+| `setBotonColorFondo(Color color)`            | Cambia el color de fondo del botón.                        |
+| `setBotonColorTexto(Color color)`            | Cambia el color del texto del botón.                        |
+| `setBotonSimbolo(String texto)`             | Cambia el símbolo o texto visible en el botón.             |
+
+---
+
+### 🕹️ Control directo
+
+| Método                  | Descripción                                                 |
+|-------------------------|-------------------------------------------------------------|
+| `generarCaptcha()`      | Fuerza la regeneración de un nuevo texto e imagen CAPTCHA. |
+| `getcaptchaImagenLabel()` | Devuelve el `JLabel` que contiene la imagen CAPTCHA.      |
 
 ---
 
