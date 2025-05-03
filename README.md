@@ -55,7 +55,7 @@ Este componente en Java genera una imagen CAPTCHA personalizada, utilizando `JLa
 
 ## 📷 Vista previa (simulada)
 
-![Vista Previa del JLabel para el Captcha](Imagenes/captchaPanel.png)
+![Vista Previa del JPanel para el Captcha](Imagenes/captchaPanel.png)
 
 ## ⚙️ Propiedades Configurables
 
