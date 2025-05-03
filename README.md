@@ -177,7 +177,7 @@ Cada vez que se actualiza una propiedad clave (como el texto, color o tamaño), 
 - `repaint()`
 
 
-## 🧩 Métodos y Constructor de `CaptchaLabel`
+## 🧩 Métodos y Constructor de `CaptchaPanel`
 
 ### 🛠️ Constructor
 
@@ -250,24 +250,103 @@ Crea una nueva instancia del componente CaptchaPanel, inicializando el layout, g
 
 ---
 
-### 🔒 Métodos privados
+## 🔒 Métodos Privados
 
-#### `private String generarTextoCaptcha(int Tamaño)`
-Genera una cadena aleatoria con la longitud indicada. Los caracteres válidos son letras mayúsculas sin ambigüedad (`A-Z` sin `O`, `I`) y números (`2-9`), lo que facilita la legibilidad por humanos.
+Los siguientes métodos están encapsulados dentro de la clase y no están diseñados para uso externo, pero son fundamentales para el funcionamiento interno del componente CAPTCHA:
 
-#### `private BufferedImage generarImagen_delCaptcha(String text)`
-Convierte el texto CAPTCHA en una imagen:
-- Pinta el fondo con gris claro.
-- Dibuja cada carácter con una posición y color aleatorio.
-- Añade 8 líneas de ruido visual con colores aleatorios.
-- Aplica un desenfoque con un `Kernel` de 3x3 para dificultar su lectura por bots.
+### 🖼️ Generación y visualización
+
+* `generarTextoCaptcha(int tamaño)`
+    Genera un texto aleatorio para el CAPTCHA, con el tipo definido (`SOLO_LETRAS`, `SOLO_NUMEROS`, `COMBINADO`).
+
+    Utiliza un `StringBuilder` y una instancia de `Random` para crear el contenido.
+
+* `generarImagen_delCaptcha(String texto)`
+    Dibuja el texto sobre una imagen `BufferedImage` con el estilo, color y fuente definidos.
+
+    También añade desenfoque y líneas decorativas si están habilitados.
+
+* `aplicarDesfoque(BufferedImage imagen)`
+    Si está activado el desenfoque, aplica una convolución con un kernel personalizado de difuminado.
+    El tamaño del kernel depende del nivel de desenfoque configurado.
+
+* `dibujarLineasDecorativas(Graphics2D g, int ancho, int alto)`
+    Dibuja líneas aleatorias de colores dentro del área del CAPTCHA como medida anti-bot, si está habilitado.
+
+### 🧱 UI y Layout
+
+* `actualizarEstiloBoton()`
+    Aplica el color de fondo, color del texto, símbolo y estilo visual del botón de recarga (`JButton`), incluyendo su borde.
+
+* `actualizarTamaño()`
+    Establece el nuevo tamaño del panel según el ancho y alto definidos y fuerza la actualización visual del layout.
 
 ---
 
-### 🎨 Método sobreescrito
+## ⚙️ Propiedades de `CaptchaPanel`
 
-#### `protected void paintComponent(Graphics g)`
-Sobrescribe el método de `JLabel` para dibujar la imagen generada del CAPTCHA sobre el componente. Se asegura de que la imagen se actualice cada vez que se llama a `repaint()`.
+El componente `CaptchaPanel` ofrece una amplia gama de propiedades configurables para controlar su comportamiento, diseño y estilo. A continuación se describen las principales:
+
+### 🎨 Estilo visual
+
+* `captchaColorLetras` (`Color`)
+    Color del texto del CAPTCHA. Se puede modificar con `setcaptchaColor(Color)`.
+
+* `captchaColorFondo` (`Color`)
+    Color de fondo del CAPTCHA. Se establece con `setcaptchaColorFondo(Color)`.
+
+* `captchaFontSize` (`int`)
+    Tamaño de fuente del texto CAPTCHA. Se modifica con `setCaptchaFontSize(int)`.
+
+* `captchaTipoLetra` (`String`)
+    Nombre de la fuente tipográfica (por ejemplo "Arial"). Se cambia con `setTipoLetra(String)`.
+
+* `captchaEstilo` (`EstiloLetra`)
+    Estilo de la fuente (`PLAIN`, `BOLD`, `ITALIC`, `BOLD_ITALIC`). Se modifica con `setEstilo(EstiloLetra)`.
+
+### 🔡 Contenido del CAPTCHA
+
+* `captchaTipo` (`CaptchaTipo`)
+    Tipo de caracteres que se usarán: solo letras, solo números o una combinación. Modificable con `setTipoCaptcha(CaptchaTipo)`.
+
+* `captchaLargoTexto` (`int`)
+    Cantidad de caracteres que tendrá el CAPTCHA. Configurable con `setlargoDelCaptcha(int)`.
+
+### 📏 Dimensiones
+
+* `captchaAncho` (`int`)
+    Altura de la imagen CAPTCHA. Modificable con `setcaptchaAltoImagen(int)`.
+
+* `captchaLargo` (`int`)
+    Ancho de la imagen CAPTCHA. Modificable con `setcaptchaLargoImagen(int)`.
+
+### ✨ Efectos visuales
+
+* `captchaBorroso` (`boolean`)
+    Indica si se aplica efecto de desenfoque. Se habilita con `setCaptchaBorroso(boolean)`.
+
+* `captchaNivelBorroso` (`int`)
+    Nivel del desenfoque (de 1 a 4). Se ajusta con `setNivelBorroso(int)`.
+
+* `captchaDibujarLineas` (`boolean`)
+    Si se deben dibujar líneas aleatorias sobre la imagen para dificultar la lectura automatizada. Se activa con `setDibujarLineas(boolean)`.
+
+* `captchaCantidadLineas` (`int`)
+    Número de líneas decorativas aleatorias. Modificable con `setCantidadLineas(int)`.
+
+### 🔄 Botón de regeneración
+
+* `captchaMostrarBoton` (`boolean`)
+    Muestra u oculta el botón para regenerar el CAPTCHA. Se activa con `setMostrarBotonRecargarCaptcha(boolean)`.
+
+* `botonColorFondo` (`Color`)
+    Color de fondo del botón de regenerar. Se modifica con `setBotonColorFondo(Color)`.
+
+* `botonColorTexto` (`Color`)
+    Color del texto (símbolo) del botón. Modificable con `setBotonColorTexto(Color)`.
+
+* `botonSimbolo` (`String`)
+    Texto o símbolo que se muestra en el botón. Cambiable con `setBotonSimbolo(String)`.
 
 ---
 
@@ -285,7 +364,7 @@ Este componente extiende `JTextField` y se conecta a un `CaptchaLabel` para veri
   
 ## 🔗 Dependencia
 
-Este componente **requiere** una instancia de `CaptchaLabel` para funcionar correctamente.
+Este componente **requiere** una instancia de `CaptchaPanel` para funcionar correctamente.
 
 ## 🚀 Cómo usar
 
@@ -314,7 +393,7 @@ panel.add(textField);
 - **Herencia:** extiende `JTextField`.
 - **Listener:** implementa `ActionListener` para detectar eventos de texto.
 - **Comparación:** insensible a mayúsculas/minúsculas (`equalsIgnoreCase`).
-- **Integración:** usa el método `setCaptchaLabel(CaptchaLabel label)` para vincular CAPTCHA.
+- **Integración:** usa el método `setCaptchaPanel(CaptchaPanel label)` para vincular CAPTCHA.
 
 ## 🧩 Métodos y Constructor de `CaptchaTextField`
 
@@ -327,15 +406,15 @@ Inicializa un campo de texto (`JTextField`) con un ancho de 10 columnas. Registr
 
 ### 🔗 Método de vinculación
 
-#### `public void setCaptchaLabel(CaptchaLabel captchaLabel)`
-Asigna una instancia de `CaptchaLabel` al campo de texto. Es esencial para que la verificación del CAPTCHA funcione correctamente, ya que este método enlaza el campo con la fuente de datos a verificar.
+#### `public void setCaptchaLabel(CaptchaPanel captchaLabel)`
+Asigna una instancia de `CaptchaPanel` al campo de texto. Es esencial para que la verificación del CAPTCHA funcione correctamente, ya que este método enlaza el campo con la fuente de datos a verificar.
 
 ---
 
 ### 🔁 Método sobrescrito
 
 #### `@Override public void actionPerformed(ActionEvent e)`
-Este método se ejecuta cuando el usuario presiona `Enter` en el campo. Si el `CaptchaLabel` fue previamente asignado, llama a `verificarCaptcha()`. Si no, muestra un mensaje de error con `JOptionPane`.
+Este método se ejecuta cuando el usuario presiona `Enter` en el campo. Si el `CaptchaPanel` fue previamente asignado, llama a `verificarCaptcha()`. Si no, muestra un mensaje de error con `JOptionPane`.
 
 ---
 
@@ -344,7 +423,7 @@ Este método se ejecuta cuando el usuario presiona `Enter` en el campo. Si el `C
 #### `private void verificarCaptcha()`
 Compara el texto ingresado por el usuario con el CAPTCHA generado:
 - Si el texto es **correcto**, se muestra un mensaje de éxito.
-- Si es **incorrecto**, se notifica al usuario, se genera un nuevo CAPTCHA desde `CaptchaLabel`, y el campo de texto se reinicia.
+- Si es **incorrecto**, se notifica al usuario, se genera un nuevo CAPTCHA desde `CaptchaPanel`, y el campo de texto se reinicia.
 
 La comparación es insensible a mayúsculas/minúsculas (`equalsIgnoreCase`) para facilitar la experiencia del usuario.
 
@@ -367,9 +446,8 @@ La comparación es insensible a mayúsculas/minúsculas (`equalsIgnoreCase`) par
 
 | Componente           | Descripción                                                                 |
 |----------------------|-----------------------------------------------------------------------------|
-| `CaptchaLabel`       | Componente gráfico que muestra el CAPTCHA generado.                        |
+| `CaptchaPanel`       | Componente gráfico que muestra el CAPTCHA generado.                        |
 | `CaptchaTextField`   | Campo de texto personalizado que verifica automáticamente la entrada del usuario. |
-| `JButton - Refrescar`| Botón que permite generar un nuevo CAPTCHA manualmente.                    |
 
 ---
 
@@ -385,12 +463,6 @@ Inicializa la ventana gráfica, establece los componentes y enlaza el campo de t
 ### 🧪 Logica de verificación
 El campo de texto (CaptchaTextField) se conecta al CaptchaLabel para que, al presionar Enter, verifique automáticamente el texto ingresado.
 Si la verificación falla, el propio componente se encarga de mostrar un mensaje y generar un nuevo CAPTCHA.
-
-### 🔁 Funcionalidad del botón Refrescar
-```java
-private void RefrescarbtnActionPerformed(ActionEvent evt)
-```
-Este método genera manualmente un nuevo CAPTCHA al presionar el botón y limpia el campo de entrada para permitir un nuevo intento.
 
 ### 🖼️ Diseño gráfico
 La ventana contiene los siguientes elementos organizados con GroupLayout dentro de un JPanel:
