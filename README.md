@@ -551,6 +551,8 @@ Asegúrate de que tu proyecto esté compilado correctamente para que NetBeans pu
 ![Yapuedes ocupar los componentes](Imagenes/Final.png)
 
 ---
+##🔗 Link del video:
+---
 
 # Autores
 
