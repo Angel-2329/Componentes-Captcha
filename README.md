@@ -4,6 +4,8 @@ Este proyecto proporciona dos componentes personalizados en Java Swing para la g
 
 ---
 
+## ⚠ Ejecutar el componente en una versión JDK 23 o superior 
+
 ## 🧩 Componentes principales
 
 ### 🔠 `CaptchaLabel` - Generador de CAPTCHA
