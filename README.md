@@ -1,50 +1,38 @@
 # 🛡️ Componentes-Captcha - Generador y Verificador de CAPTCHA con Swing
 
-Este proyecto proporciona dos componentes personalizados en Java Swing para la generación y verificación de CAPTCHA. Está diseñado para integrarse fácilmente en interfaces gráficas (GUI) que requieran una verificación básica anti-bot.
+Este proyecto proporciona un componente personalizado en Java Swing para la generación y verificación de CAPTCHA. Está diseñado para integrarse fácilmente en interfaces gráficas (GUI) que requieran una verificación básica anti-bot.
 
 ---
 
 ## ⚠ Ejecutar el componente en una versión JDK 23 o superior 
 
-## 🧩 Componentes principales
+## 🧩 Componente principal
 
-### 🔠 `CaptchaLabel` - Generador de CAPTCHA
+### 🔠 `CaptchaPanel` - Generador de CAPTCHA
 
-Este componente extiende `JLabel` y genera una imagen CAPTCHA visualmente distorsionada con texto aleatorio, líneas de ruido y desenfoque, dificultando así su lectura automatizada.
+CaptchaPanel es un componente gráfico personalizado en Java Swing diseñado para generar y validar captchas visuales. Este panel puede integrarse fácilmente en cualquier aplicación de escritorio Java que requiera verificación humana.
 
 #### Funcionalidades:
-- Texto aleatorio de 6 caracteres (sin letras ni números ambiguos).
-- Renderizado gráfico con:
-  - Fuente Arial, tamaño 40pt, negrita.
-  - Color aleatorio por carácter (tonos oscuros).
-  - Líneas de ruido visual (8 por imagen).
-  - Filtro de desenfoque (`ConvolveOp` con kernel 3x3).
-- Redibujado automático con `repaint()`.
-- Tamaño fijo de 250x60 píxeles.
-- Basado completamente en bibliotecas estándar (`AWT`, `Swing`).
-
----
-
-### ✍️ `CaptchaTextField` - Verificador de CAPTCHA
-
-Este componente extiende `JTextField` e implementa `ActionListener` para detectar la acción de presionar `Enter`. Compara el texto ingresado con el CAPTCHA generado y responde en consecuencia.
-
-#### Comportamiento:
-1. El usuario escribe el texto del CAPTCHA.
-2. Al presionar `Enter`, se verifica la coincidencia:
-   - ✅ Si es **correcto**: muestra un mensaje de éxito.
-   - ❌ Si es **incorrecto**: muestra un error, genera un nuevo CAPTCHA y limpia el campo.
-
-#### Detalles técnicos:
-- Implementa `ActionListener`.
-- Comparación insensible a mayúsculas/minúsculas (`equalsIgnoreCase`).
-- Utiliza el método `setCaptchaLabel(CaptchaLabel)` para integrarse.
+* Generación automática de captchas visuales con letras, números o ambos (configurable).
+* Validación automática del texto ingresado por el usuario.
+* Regeneración de captchas al fallar la validación o al presionar un botón (opcional).
+* **Configuración visual flexible:**
+    * Tipo y tamaño de fuente
+    * Estilo de letra (`PLAIN`, `BOLD`, `ITALIC`, `BOLD_ITALIC`)
+    * Colores del texto, fondo y panel de entrada
+    * Líneas decorativas de interferencia
+    * Nivel de desenfoque aplicado al captcha
+* **Etiquetas configurables:**
+    * Texto, color y visibilidad del mensaje de entrada
+    * Mensaje de validación (correcto / incorrecto)
+* **Restricción de entrada:** El campo de texto acepta solo caracteres alfanuméricos (letras y números).
+* Botón recargable opcional con símbolo personalizado y colores ajustables.
 
 ---
 
 # CaptchaPanel  - Generador de CAPTCHA en Java
 
-Este componente en Java genera una imagen CAPTCHA personalizada, utilizando `JLabel` de Swing, que puede integrarse fácilmente en interfaces gráficas de usuario (GUI). La imagen contiene texto aleatorio con ruido visual y un filtro de desenfoque para aumentar su seguridad.
+Este componente en Java genera una imagen CAPTCHA personalizada, utilizando `JPanel` de Swing, que puede integrarse fácilmente en interfaces gráficas de usuario (GUI). La imagen contiene texto aleatorio con ruido visual y un filtro de desenfoque para aumentar su seguridad.
 
 ## 🧩 Características
 
@@ -54,6 +42,28 @@ Este componente en Java genera una imagen CAPTCHA personalizada, utilizando `JLa
 - 🌫️ Opción de desenfoque con diferentes niveles.
 - 🖍️ Líneas decorativas para dificultar lectura automática.
 - 📐 Ajuste dinámico de tamaño del panel y del CAPTCHA.
+
+## ⚙️ Personalización y propiedades
+
+Puedes modificar fácilmente el comportamiento del captcha a través de sus métodos `set...()`:
+
+| Método                             | Descripción                                             |
+|------------------------------------|---------------------------------------------------------|
+| `setTipoCaptcha(...)`              | Define si el captcha tiene letras, números o ambos.     |
+| `setCaptchaFontSize(...)`           | Cambia el tamaño de la fuente.                         |
+| `setCaptchaColor(...)`            | Cambia el color del texto del captcha.                 |
+| `setcaptchaColorFondo(...)`        | Cambia el fondo del captcha generado.                  |
+| `setColorFondoPanelEntrada(...)`   | Cambia el color del panel donde se ingresa el texto.   |
+| `setTextoLabelSuperior(...)`      | Cambia el texto superior ("Ingresa el captcha").        |
+| `setColorTextoLabelSuperior(...)` | Cambia el color del texto superior.                   |
+| `setColorTextoLabelResultado(...)`| Cambia el color del mensaje de validación.            |
+| `setMostrarBotonRecargarCaptcha(...)`| Muestra/oculta el botón de recarga.                    |
+| `setBotonColorFondo(...)`          | Cambia el color de fondo del botón.                     |
+| `setBotonSimbolo(...)`           | Cambia el símbolo que aparece en el botón.              |
+| `setCaptchaBorroso(...)`          | Activa/desactiva el desenfoque.                        |
+| `setNivelBorroso(...)`            | Ajusta el nivel del desenfoque aplicado.               |
+| `setDibujarLineas(...)`           | Activa o desactiva las líneas decorativas.            |
+| `setCantidadLineas(...)`          | Define cuántas líneas se dibujan sobre el captcha.      |
 
 ## 📷 Vista previa (simulada)
 
@@ -351,83 +361,6 @@ El componente `CaptchaPanel` ofrece una amplia gama de propiedades configurables
     Texto o símbolo que se muestra en el botón. Cambiable con `setBotonSimbolo(String)`.
 
 ---
-
-# CaptchaTextField - Campo de texto con verificación de CAPTCHA en Java
-
-Este componente extiende `JTextField` y se conecta a un `CaptchaLabel` para verificar automáticamente si el texto ingresado por el usuario coincide con el CAPTCHA generado.
-
-## 🔐 Funcionalidad
-
-- 📥 Campo de texto que escucha acciones (`Enter`) del usuario.
-- 🔍 Verifica automáticamente el texto ingresado con el CAPTCHA.
-- 🔄 Si la verificación falla, genera un nuevo CAPTCHA y limpia el campo.
-- 🖥️ Diseñado para trabajar junto con el componente `CaptchaLabel`.
-
-  
-## 🔗 Dependencia
-
-Este componente **requiere** una instancia de `CaptchaPanel` para funcionar correctamente.
-
-## 🚀 Cómo usar
-
-### Crear e integrar los componentes
-
-```java
-CaptchaLabel captcha = new CaptchaLabel();
-CaptchaTextField textField = new CaptchaTextField();
-textField.setCaptchaLabel(captcha);
-
-JPanel panel = new JPanel();
-panel.add(captcha);
-panel.add(textField);
-```
-## 🧾 Comportamiento
-
-- El usuario escribe el texto del CAPTCHA.
-- Al presionar `Enter`, se compara el texto ingresado con el generado.
-- Se muestra un `JOptionPane` con el resultado:
-
-  - ✅ **Correcto:** se notifica al usuario.
-  - ❌ **Incorrecto:** se genera uno nuevo y se reinicia el campo.
-
-## ⚙️ Detalles técnicos
-
-- **Herencia:** extiende `JTextField`.
-- **Listener:** implementa `ActionListener` para detectar eventos de texto.
-- **Comparación:** insensible a mayúsculas/minúsculas (`equalsIgnoreCase`).
-- **Integración:** usa el método `setCaptchaPanel(CaptchaPanel label)` para vincular CAPTCHA.
-
-## 🧩 Métodos y Constructor de `CaptchaTextField`
-
-### 🛠️ Constructor
-
-#### `public CaptchaTextField()`
-Inicializa un campo de texto (`JTextField`) con un ancho de 10 columnas. Registra el componente como su propio `ActionListener` para detectar cuando el usuario presiona `Enter`. Limpia el texto inicial del campo.
-
----
-
-### 🔗 Método de vinculación
-
-#### `public void setCaptchaLabel(CaptchaPanel captchaLabel)`
-Asigna una instancia de `CaptchaPanel` al campo de texto. Es esencial para que la verificación del CAPTCHA funcione correctamente, ya que este método enlaza el campo con la fuente de datos a verificar.
-
----
-
-### 🔁 Método sobrescrito
-
-#### `@Override public void actionPerformed(ActionEvent e)`
-Este método se ejecuta cuando el usuario presiona `Enter` en el campo. Si el `CaptchaPanel` fue previamente asignado, llama a `verificarCaptcha()`. Si no, muestra un mensaje de error con `JOptionPane`.
-
----
-
-### 🧪 Método de verificación
-
-#### `private void verificarCaptcha()`
-Compara el texto ingresado por el usuario con el CAPTCHA generado:
-- Si el texto es **correcto**, se muestra un mensaje de éxito.
-- Si es **incorrecto**, se notifica al usuario, se genera un nuevo CAPTCHA desde `CaptchaPanel`, y el campo de texto se reinicia.
-
-La comparación es insensible a mayúsculas/minúsculas (`equalsIgnoreCase`) para facilitar la experiencia del usuario.
 
 # 🖥️ Aplicacion_Componentes - Interfaz Gráfica de Prueba para CAPTCHA
 
