@@ -67,45 +67,56 @@ Puedes modificar fácilmente el comportamiento del captcha a través de sus mét
 
 ## 📷 Vista previa (simulada)
 
-![Vista Previa del JPanel para el Captcha](Imagenes/captchaPanel.png)
+![Vista Previa del JPanel para el Captcha](Imagenes/CaptchaPanel.png)
 
 ## ⚙️ Propiedades Configurables
 
-### Apariencia del texto
+El componente `CaptchaPanel` permite una amplia personalización a través de sus métodos públicos. A continuación se detallan las propiedades configurables agrupadas por categoría:
 
-```java
-captcha.setTipoCaptcha(CaptchaPanel.CaptchaTipo.COMBINADO); // SOLO_LETRAS, SOLO_NUMEROS
-captcha.setCaptchaFontSize(24);
-captcha.setCaptchaColor(Color.BLUE);
-captcha.setTipoLetra("Courier New");
-captcha.setEstilo(CaptchaPanel.EstiloLetra.BOLD_ITALIC);
-```
+### 🖋️ Texto del Captcha
 
-### Apariencia visual
+| Propiedad           | Método                             | Descripción                                                                |
+|---------------------|------------------------------------|----------------------------------------------------------------------------|
+| Longitud del captcha | `setlargoDelCaptcha(int)`         | Define cuántos caracteres tendrá el captcha.                               |
+| Tipo de caracteres  | `setTipoCaptcha(CaptchaTipo)`     | Puede ser `SOLO_LETRAS`, `SOLO_NUMEROS` o `COMBINADO`.                     |
+| Fuente del texto    | `setTipoLetra(String)`            | Nombre de la fuente (ej: "Arial", "Verdana").                             |
+| Estilo del texto    | `setEstilo(EstiloLetra)`          | `PLAIN`, `BOLD`, `ITALIC` o `BOLD_ITALIC`.                               |
+| Tamaño de fuente    | `setCaptchaFontSize(int)`          | Define el tamaño del texto del captcha.                                  |
 
-```java
-captcha.setcaptchaColorFondo(Color.WHITE);
-captcha.setcaptchaAnchoImagen(60);
-captcha.setcaptchaLargoImagen(200);
-```
+### 🎨 Colores
 
-### Efectos visuales
+| Propiedad                   | Método                             | Descripción                                              |
+|-----------------------------|------------------------------------|----------------------------------------------------------|
+| Color del texto del captcha | `setCaptchaColor(Color)`          | Color del texto generado.                                |
+| Color de fondo del captcha | `setcaptchaColorFondo(Color)`      | Fondo sobre el que se dibuja el captcha.                 |
+| Color del panel de entrada  | `setColorFondoPanelEntrada(Color)` | Color del panel inferior con el campo de texto.          |
+| Color del texto del label superior | `setColorTextoLabelSuperior(Color)` | Color del mensaje que guía al usuario.                  |
+| Color del texto de resultado | `setColorTextoLabelResultado(Color)`| Color del mensaje de validación del captcha.             |
+| Color del botón de recarga  | `setBotonColorFondo(Color)`        | Fondo del botón para regenerar captcha.                  |
+| Color del texto del botón   | `setBotonColorTexto(Color)`        | Texto/icono del botón regenerador.                       |
 
-```java
-captcha.setCaptchaBorroso(true);
-captcha.setNivelBorroso(2); // Rango de 0 a 4
-captcha.setDibujarLineas(true);
-captcha.setCantidadLineas(6);
-```
+### 📐 Tamaño
 
-### Botón regenerador
+| Propiedad             | Método                          | Descripción                         |
+|-----------------------|---------------------------------|-------------------------------------|
+| Ancho de imagen captcha | `setcaptchaAnchoImagen(int)`    | Alto del área gráfica del captcha. |
+| Largo de imagen captcha | `setcaptchaLargoImagen(int)`   | Ancho del área gráfica del captcha.|
 
-```java
-captcha.setMostrarBotonRecargarCaptcha(true);
-captcha.setBotonColorFondo(Color.GRAY);
-captcha.setBotonColorTexto(Color.WHITE);
-captcha.setBotonSimbolo("🔄");
-```
+### ✨ Efectos Visuales
+
+| Propiedad               | Método                          | Descripción                               |
+|-------------------------|---------------------------------|-------------------------------------------|
+| Desenfoque activado     | `setCaptchaBorroso(boolean)`  | Aplica un desenfoque al texto si es `true`. |
+| Nivel de desenfoque     | `setNivelBorroso(int)`        | Valor entre 1 y 4 (más alto, más borroso).  |
+| Dibujar líneas decorativas | `setDibujarLineas(boolean)` | Dibuja líneas aleatorias en la imagen.    |
+| Cantidad de líneas decorativas | `setCantidadLineas(int)`    | Número de líneas a dibujar.               |
+
+### 🔄 Botón de recarga
+
+| Propiedad             | Método                                    | Descripción                                  |
+|-----------------------|-------------------------------------------|----------------------------------------------|
+| Mostrar botón regenerar | `setMostrarBotonRecargarCaptcha(boolean)` | Muestra u oculta el botón de regenerar.       |
+| Texto del botón       | `setBotonSimbolo(String)`                | Personaliza el icono o texto del botón.      |
 
 ## 🛠️ Detalles técnicos
 
@@ -115,6 +126,9 @@ El componente `CaptchaPanel` extiende `JPanel` y está compuesto por:
 
 - Un `JLabel` (`captchaImageLabel`) que contiene la imagen generada del CAPTCHA.
 - Un `JButton` opcional (`captchaBotonRegenerar`) que permite regenerar el CAPTCHA manualmente.
+- Un `Text Field` (`captchaTextField`) donde ingresara el CAPTCHA.
+- Un `JLabel` (`labelSuperior`) donde mostrara un texto.
+- Un `JLabel` (`labelResultado`) donde se mostrar si el CAPTCHA es correcto o incorrecto.
 
 ### 🖼️ Generación del CAPTCHA
 
@@ -382,7 +396,6 @@ El componente `CaptchaPanel` ofrece una amplia gama de propiedades configurables
 | Componente           | Descripción                                                                 |
 |----------------------|-----------------------------------------------------------------------------|
 | `CaptchaPanel`       | Componente gráfico que muestra el CAPTCHA generado.                        |
-| `CaptchaTextField`   | Campo de texto personalizado que verifica automáticamente la entrada del usuario. |
 
 ---
 
@@ -392,7 +405,6 @@ El componente `CaptchaPanel` ofrece una amplia gama de propiedades configurables
 
 ```java
 public Aplicacion_Componentes()
-Inicializa la ventana gráfica, establece los componentes y enlaza el campo de texto con el CAPTCHA mediante setCaptchaLabel(captchaLabel1). Además, limpia el campo de texto al inicio.
 ```
 
 ### 🧪 Logica de verificación
