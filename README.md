@@ -496,7 +496,7 @@ Asegúrate de que tu proyecto esté compilado correctamente para que NetBeans pu
 ![Yapuedes ocupar los componentes](Imagenes/Final.png)
 
 ---
-## 🔗 Link del video: https://youtu.be/-SWGKzD9weU
+## 🔗 Link del video: [https://youtu.be/-SWGKzD9weU](https://youtu.be/qAc6YX84N1U)
 
 ---
 
