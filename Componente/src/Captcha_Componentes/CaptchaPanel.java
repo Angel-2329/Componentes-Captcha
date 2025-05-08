@@ -1,6 +1,8 @@
 
 package Captcha_Componentes;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import javax.swing.*;
@@ -9,6 +11,14 @@ import javax.swing.border.Border;
 public class CaptchaPanel extends JPanel 
 {
     private final JLabel captchaImageLabel;
+    private final JLabel labelSuperior;
+    private final JLabel labelResultado;
+    private final JTextField captchaTextField;
+    private final JPanel captchaInputPanel;
+    private Color captchaColorInputPanel = Color.WHITE;
+    private String TextoLabelS = "Ingresa el captcha:";
+    private Color ColorLabelS = Color.BLUE;
+    private Color ColorLabelI = new Color(0, 128, 0);
     private String captchaText;
     private BufferedImage captchaImage;
     private int captchaFontSize = 20;
@@ -42,7 +52,44 @@ public class CaptchaPanel extends JPanel
         captchaBotonRegenerar.setVisible(captchaMostrarBoton);
         actualizarEstiloBoton();
         this.add(captchaBotonRegenerar, BorderLayout.EAST);
+        labelSuperior = new JLabel(TextoLabelS);
+        labelSuperior.setForeground(ColorLabelS);
+        labelSuperior.setAlignmentX(Component.CENTER_ALIGNMENT);
+        captchaTextField = new JTextField(10);
+        captchaTextField.addActionListener(e -> verificarCaptcha());
+        labelResultado = new JLabel(" ");
+        labelResultado.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelResultado.setForeground(Color.DARK_GRAY);
+        captchaInputPanel = new JPanel();
+        captchaInputPanel.setBackground(captchaColorInputPanel);
+        captchaInputPanel.setLayout(new BoxLayout(captchaInputPanel, BoxLayout.Y_AXIS));
+        captchaInputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        captchaInputPanel.add(labelSuperior);
+        captchaInputPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        captchaInputPanel.add(captchaTextField);
+        captchaInputPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        captchaInputPanel.add(labelResultado);
+        this.add(captchaInputPanel, BorderLayout.SOUTH);
+        restringirEntradaAlfanumerica(captchaTextField);
         generarCaptcha();
+    }
+    
+    private void verificarCaptcha() 
+    {
+        String textoIngresado = captchaTextField.getText().trim();
+        String textoCaptcha = captchaText;
+        if (textoIngresado.equalsIgnoreCase(textoCaptcha)) 
+        {
+            labelResultado.setText("✅ ¡Captcha correcto!");
+            labelResultado.setForeground(ColorLabelI);
+        } 
+        else 
+        {
+            labelResultado.setText("❌ Captcha incorrecto. Se ha generado uno nuevo.");
+            labelResultado.setForeground(Color.RED);
+            generarCaptcha();
+            captchaTextField.setText("");
+        }
     }
     
     public JLabel generarLabel ()
@@ -71,6 +118,58 @@ public class CaptchaPanel extends JPanel
             captchaBotonRegenerar.setFocusPainted(false);
             captchaBotonRegenerar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         }
+    }
+    
+    
+    public void RepintarLabel ()
+    {
+        labelResultado.setForeground(ColorLabelI);
+        labelSuperior.setForeground(ColorLabelS);
+        labelSuperior.setText(TextoLabelS);
+        captchaInputPanel.setBackground(captchaColorInputPanel);
+    }
+    public void setColorFondoPanelEntrada(Color color) 
+    {
+        captchaColorInputPanel = color;
+        RepintarLabel ();
+    }
+
+    public Color getColorFondoPanelEntrada() 
+    {
+        return captchaColorInputPanel;
+    }
+    
+    public void setTextoLabelSuperior(String texto) 
+    {
+        TextoLabelS = texto;
+        RepintarLabel ();
+    }
+
+    public String getTextoLabelSuperior() 
+    {
+        return TextoLabelS;
+    }
+   
+    public void setColorTextoLabelSuperior(Color color) 
+    {
+        ColorLabelS = color;
+        RepintarLabel ();
+    }
+
+    public Color getColorTextoLabelSuperior() 
+    {
+        return ColorLabelS;
+    }
+
+    public void setColorTextoLabelResultado(Color color) 
+    {
+        ColorLabelI = color;
+        RepintarLabel ();
+    }
+
+    public Color getColorTextoLabelResultado() 
+    {
+        return ColorLabelS;
     }
     
     public JLabel getcaptchaImageLabel ()
@@ -210,6 +309,7 @@ public class CaptchaPanel extends JPanel
         captchaText = generarTextoCaptcha(captchaLargoTexto);
         captchaImage = generarImagen_delCaptcha(captchaText);
         captchaImageLabel.setIcon(new ImageIcon(captchaImage));
+        labelResultado.setText("");
     }
 
     public String getTexto_Captcha() 
@@ -277,6 +377,22 @@ public class CaptchaPanel extends JPanel
     {
         this.botonSimbolo = simbolo;
         actualizarEstiloBoton();
+    }
+    
+    private void restringirEntradaAlfanumerica(JTextField captchaTextField) 
+    {
+        captchaTextField.addKeyListener(new KeyAdapter() 
+        {
+            @Override
+            public void keyTyped(KeyEvent e) 
+            {
+                char c = e.getKeyChar();
+                if (!Character.isLetterOrDigit(c)) 
+                {
+                    e.consume();
+                }
+            }
+        });
     }
 
     private String generarTextoCaptcha (int Tamaño) 
